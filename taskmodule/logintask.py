@@ -33,13 +33,13 @@ class LoginTask:
         """
         data = dict()
         initialization_parameters = self.initialization_parameters(initialization_parameters)
-        initialization_headers = self.initialization_headers(initialization_parameters)
+        initialization_headers = self.initialization_headers()
 
         # run pre-requests
         # these requests are desirable and in addition,
         # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did from the api
-        pre_requests = self.social_api.run_pre_requests(initialization_parameters, initialization_headers,
-                                                        initialization_headers.get_headers())
+        pre_requests = self.social_api.login(initialization_parameters, initialization_headers,
+                                             initialization_headers.get_headers())
         print(self.social_api.request.cookies.get_dict(), 4000)
         if not pre_requests:
             sys.stdout.write(f"The parameters necessary for the further operation of the bot {self.individual_id} "
@@ -51,24 +51,13 @@ class LoginTask:
 
         # check if params csrftoken, mid, ig_did are passed
         if initialization_parameters.mid and initialization_parameters.csrftoken:
-
-            generator = EncGenerate(initialization_parameters.passwordEncryptionPubKey,
-                                    initialization_parameters.passwordEncryptionKeyId, self.account_data["password"])
-
-            initialization_parameters.enc_password = generator.enc_password()
-
-            # run login
-            data = self.social_api.login(self.account_data, initialization_parameters,
-                                         initialization_headers.get_headers())
-
-            if data["status"]:
-                sys_report = SystemApiRequests(self.individual_id)
-                # send report to api
-                sys_report.task_report(task_id, data)
-                return {
-                    "status": True, "initialization_parameters": initialization_parameters,
-                    "initialization_headers": initialization_headers
-                }
+            sys_report = SystemApiRequests(self.individual_id)
+            # send report to api
+            sys_report.task_report(task_id, data)
+            return {
+                "status": True, "initialization_parameters": initialization_parameters,
+                "initialization_headers": initialization_headers
+            }
 
         return {"status": False}
 
@@ -80,11 +69,10 @@ class LoginTask:
         params = InitParams(self.account_data, initialization_parameters)
         return params
 
-    def initialization_headers(self, initialization_parameters: object) -> object:
+    def initialization_headers(self) -> object:
         """
         Initialization of headers parameters for login request
-        :param initialization_parameters: dict
         :return: dict
         """
-        headers = InitHeaders(initialization_parameters)
+        headers = InitHeaders()
         return headers

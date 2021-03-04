@@ -3,9 +3,8 @@ from settings import instadata
 
 class InitHeaders:
 
-    def __init__(self, params: object):
+    def __init__(self):
         self.initialization_headers = dict()
-        self.params = params
         self.default_headers = instadata.DEFAULT_HEADERS
         self.make_headers()
 

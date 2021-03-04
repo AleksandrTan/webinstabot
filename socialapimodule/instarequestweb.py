@@ -8,8 +8,7 @@ import requests
 import json
 from logsource.logconfig import logger
 from settings import requestsmap
-from socialapimodule.prerequests import PreRequestWorker
-from supportingmodule.signgenerate import HMACGenerate
+from socialapimodule.loginrequest import LoginRequest
 
 
 class InstagramRequestsWeb:
@@ -30,11 +29,7 @@ class InstagramRequestsWeb:
         """
         data = dict()
         try:
-            hmac = HMACGenerate(json.dumps(params))
-            hmac_data = hmac.generate_signature()
-            pprint(hmac_data)
-            pprint(params)
-            response = self.request.post(main_url + uri, data=hmac_data, headers=headers)
+            response = self.request.post(main_url + uri, data=params, headers=headers)
             try:
                 data = response.json()
                 print(main_url + uri, response.status_code, data, response.headers)
@@ -68,34 +63,16 @@ class InstagramRequestsWeb:
         :param initialization_parameters: dict
         :return: dict
         """
-        authorization_data = {}
+        pre_request_obj = LoginRequest(initialization_parameters, initialization_headers,
+                                       initialization_headers.get_headers(), self.request, self.requests_map)
+
+        login_data = pre_request_obj.login()
         if not initialization_parameters.passwordEncryptionPubKey:
             logger.warning(f"The parameters required for the request are not set!")
 
             return {"status": False, "error": True}
 
-        request_data = dict()
-        request_data['username'] = account_data['username']
-        # request_data['password'] = account_data['password']
-        request_data['enc_password'] = initialization_parameters.enc_password
-        request_data['guid'] = initialization_parameters.uuid
-        request_data["phone_id"] = initialization_parameters.phone_id
-        request_data["_csrftoken"] = initialization_parameters.csrftoken
-        request_data["device_id"] = initialization_parameters.device_id
-        request_data["adid"] = ''
-        request_data["google_tokens"] = '[]'
-        request_data["login_attempt_count"] = 0
-        request_data["country_codes"] = initialization_parameters.country_codes
-        request_data["jazoest"] = initialization_parameters.jazoest
-
-        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["login"]["uri"],
-                                           request_data, initialization_headers)
-
-        if response["status"]:
-            if response["data"]["status"] == 'ok':
-                return {"status": True, "response_data": response}
-
-        return {"status": False}
+        return {"status": True}
 
     def like(self, params: dict, authorization_data: dict) -> dict:
         """
@@ -130,16 +107,3 @@ class InstagramRequestsWeb:
                                            authorization_data)
 
         return response
-
-    def run_pre_requests(self, params: object, headers: object, headers_dict: dict) -> bool:
-        """
-        Emulation mobile app behaivor before login
-        Run pre requests
-        :param headers_dict: dict - attributes from headers object
-        :param params: object
-        :param headers: object
-        :return: bool
-        """
-        pre_request_obj = PreRequestWorker(params, headers, headers_dict, self.request, self.requests_map)
-
-        return pre_request_obj.run_pre_requests()

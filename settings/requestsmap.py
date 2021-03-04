@@ -12,14 +12,14 @@ INSTAGRAM_WEB_DATA = {
         "params": ""
     },
 
-    "like": {
-        "uri": "api/successlike/",
+    "flipping_type": {
+        "uri": "api/flippingtape/",
         "data": "",
         "params": ""
     },
 
-    "flipping_type": {
-        "uri": "api/flippingtape/",
+    "like": {
+        "uri": "api/successlike/",
         "data": "",
         "params": ""
     },
