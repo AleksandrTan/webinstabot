@@ -8,6 +8,8 @@ INSTAGRAM_WEB_DATA = {
 
     "login": {
         "uri": "https://www.instagram.com/accounts/login/ajax/",
+        "password_field": "password",
+        "username_field": "username",
     },
 
     "flipping_type": {

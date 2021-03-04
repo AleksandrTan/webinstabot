@@ -56,8 +56,7 @@ class InstagramRequestsWeb:
 
         return {"status": False, "error": True, "error_type": response.status_code}
 
-    def login(self, account_data: dict, initialization_parameters: object, initialization_headers: object,
-              initialization_cookies: object) -> dict:
+    def login(self, account_data: dict, initialization_headers: object, initialization_cookies: object) -> dict:
         """
         :param initialization_cookies: object
         :param initialization_headers: object
@@ -65,8 +64,7 @@ class InstagramRequestsWeb:
         :param initialization_parameters: object
         :return: dict
         """
-        pre_request_obj = login(account_data, initialization_parameters, initialization_headers,
-                                initialization_cookies, self.requests_map)
+        pre_request_obj = login(account_data, initialization_headers, initialization_cookies, self.requests_map)
 
         if not pre_request_obj["status"]:
             logger.warning(f"The parameters required for the request are not set!")

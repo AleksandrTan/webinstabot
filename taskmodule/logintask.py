@@ -39,8 +39,7 @@ class LoginTask:
         # run login
         # these requests are desirable and in addition,
         # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did... from the api
-        login_data = self.social_api.login(self.account_data, initialization_parameters, initialization_headers,
-                                           initialization_cookies)
+        login_data = self.social_api.login(self.account_data, initialization_headers, initialization_cookies)
 
         print(initialization_cookies.get_dict())
         print(initialization_headers.get_headers())
