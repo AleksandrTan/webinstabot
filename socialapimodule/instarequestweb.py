@@ -70,7 +70,10 @@ class InstagramRequestsWeb:
 
         login_data = pre_request_obj.login()
 
-        if not initialization_parameters.passwordEncryptionPubKey:
+        print(initialization_cookies.csrftoken)
+        print(initialization_headers.get_headers())
+
+        if not login_data["status"]:
             logger.warning(f"The parameters required for the request are not set!")
 
             return {"status": False, "error": True}

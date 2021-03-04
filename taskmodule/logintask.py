@@ -84,5 +84,5 @@ class LoginTask:
         Initialization of headers parameters for login request
         :return: dict
         """
-        init_cookies = InitCookies
+        init_cookies = InitCookies()
         return init_cookies
