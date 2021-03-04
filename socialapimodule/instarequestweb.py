@@ -56,17 +56,20 @@ class InstagramRequestsWeb:
 
         return {"status": False, "error": True, "error_type": response.status_code}
 
-    def login(self, account_data: dict, initialization_parameters: object, initialization_headers: dict) -> dict:
+    def login(self, account_data: dict, initialization_parameters: object, initialization_headers: object,
+              initialization_cookies: object) -> dict:
         """
-        :param initialization_headers: dict
+        :param initialization_cookies: object
+        :param initialization_headers: object
         :param account_data: dict
-        :param initialization_parameters: dict
+        :param initialization_parameters: object
         :return: dict
         """
-        pre_request_obj = LoginRequest(initialization_parameters, initialization_headers,
-                                       initialization_headers.get_headers(), self.request, self.requests_map)
+        pre_request_obj = LoginRequest(account_data, initialization_parameters, initialization_headers,
+                                       initialization_cookies, self.requests_map)
 
         login_data = pre_request_obj.login()
+
         if not initialization_parameters.passwordEncryptionPubKey:
             logger.warning(f"The parameters required for the request are not set!")
 

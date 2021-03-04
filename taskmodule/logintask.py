@@ -10,6 +10,7 @@ from pprint import pprint
 from logsource.logconfig import logger
 from core.initheaders import InitHeaders
 from core.initparams import InitParams
+from core.initcookies import InitCookies
 
 
 class LoginTask:
@@ -34,13 +35,14 @@ class LoginTask:
         data = dict()
         initialization_parameters = self.initialization_parameters(initialization_parameters)
         initialization_headers = self.initialization_headers()
+        initialization_cookies = self.initialization_cookies()
 
         # run pre-requests
         # these requests are desirable and in addition,
         # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did from the api
-        pre_requests = self.social_api.login(initialization_parameters, initialization_headers,
-                                             initialization_headers.get_headers())
-        print(self.social_api.request.cookies.get_dict(), 4000)
+        pre_requests = self.social_api.login(self.account_data, initialization_parameters, initialization_headers,
+                                             initialization_cookies)
+
         if not pre_requests:
             sys.stdout.write(f"The parameters necessary for the further operation of the bot {self.individual_id} "
                              f"were not received.!!!")
@@ -76,3 +78,11 @@ class LoginTask:
         """
         headers = InitHeaders()
         return headers
+
+    def initialization_cookies(self) -> object:
+        """
+        Initialization of headers parameters for login request
+        :return: dict
+        """
+        init_cookies = InitCookies
+        return init_cookies
