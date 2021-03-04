@@ -6,7 +6,6 @@ a file on the standard output stream.
 """
 import sys
 import time
-from pprint import pprint
 
 from logsource.logconfig import logger
 from taskmodule.inittask import InitTasks
@@ -64,6 +63,7 @@ class InstaBot:
                 print(self.initialization_cookies.get_dict())
                 print(self.initialization_headers.get_headers())
                 self.execution_status = True
+
                 return
 
         while self.execution_status:

@@ -30,3 +30,6 @@ class InitHeaders:
 
     def set_attribute_headers(self, key, value):
         self.initialization_headers[key] = value
+
+    def get_attribute_headers(self, key):
+        return self.initialization_headers[key]

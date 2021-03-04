@@ -48,7 +48,7 @@ def login(account_data: dict, initialization_headers: object, initialization_coo
         logger.warning(f"The authorization process was not correct.!!! Error - {errors}")
         sys.stdout.write(f"Error login {errors} !")
 
-        return {"status": True}
+        return {"status": False}
 
 
 def set_cookies(initialization_cookies: object, cookies: dict):

@@ -68,7 +68,7 @@ class InstagramRequestsWeb:
         if not pre_request_obj["status"]:
             logger.warning(f"The parameters required for the request are not set!")
 
-            return {"status": False, "error": True}
+            return {"status": False}
 
         return {"status": True}
 

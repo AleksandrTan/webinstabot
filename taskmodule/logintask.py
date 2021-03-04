@@ -31,7 +31,8 @@ class LoginTask:
         :param task_id: int
         :return: dict
         """
-        data = dict()
+        data = {"status": True}
+        # init headers, params, cookies objects
         initialization_parameters = self.initialization_parameters(initialization_parameters)
         initialization_headers = self.initialization_headers()
         initialization_cookies = self.initialization_cookies()
