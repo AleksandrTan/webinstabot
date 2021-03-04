@@ -1,9 +1,4 @@
-import time
-import uuid
-import random
-
 from settings import instadata
-from settings.devices import DEVICES
 
 
 class InitHeaders:
@@ -18,44 +13,23 @@ class InitHeaders:
         return self.initialization_headers
 
     def make_headers(self):
-        self.initialization_headers["User-Agent"] = self.init_user_agent()
-        self.initialization_headers["X-MID"] = self.params.mid
-        self.initialization_headers["X-IG-Device-ID"] = self.params.uuid
-        self.initialization_headers["X-IG-Android-ID"] = self.params.device_id
-        self.initialization_headers["Host"] = self.default_headers['Host']
-        self.initialization_headers["X-IG-App-Locale"] = self.default_headers['X-IG-App-Locale']
-        self.initialization_headers["X-IG-Device-Locale"] = self.default_headers['X-IG-Device-Locale']
-        self.initialization_headers["X-IG-Mapped-Locale"] = self.default_headers['X-IG-Mapped-Locale']
-        self.initialization_headers["X-Pigeon-Session-Id"] = self.generate_uuid()
-        self.initialization_headers["X-Pigeon-Rawclienttime"] = str(round(time.time() * 1000) / 1000)
-        self.initialization_headers["X-IG-Connection-Speed"] = str(random.randint(1000, 3700)) + "-1kbps"
-        self.initialization_headers["X-CM-Bandwidth-KBPS"] = "-1.000"
-        self.initialization_headers["X-IG-Bandwidth-Speed-KBPS"] = str(random.randint(2900000, 10000000) / 1000)
-        self.initialization_headers["X-IG-Bandwidth-TotalBytes-B"] = '0'
-        self.initialization_headers["X-IG-Bandwidth-TotalTime-MS"] = '0'
-        self.initialization_headers["X-Bloks-Version-Id"] = instadata.BLOKS_VERSION_ID
-        self.initialization_headers["X-CM-Latency"] = "-1.000"
-        self.initialization_headers["Accept-Encoding"] = self.default_headers["Accept-Encoding"]
-        self.initialization_headers["Accept-Language"] = self.default_headers["Accept-Language"]
-        self.initialization_headers["X-FB-HTTP-Engine"] = self.default_headers["X-FB-HTTP-Engine"]
-        self.initialization_headers["X-Bloks-Is-Layout-RTL"] = self.default_headers["X-Bloks-Is-Layout-RTL"]
-        self.initialization_headers["X-IG-Connection-Type"] = self.default_headers["X-IG-Connection-Type"]
-        self.initialization_headers["X-IG-Capabilities"] = self.default_headers["X-IG-Capabilities"]
-        self.initialization_headers['X-IG-App-ID'] = instadata.FACEBOOK_ANALYTICS_APPLICATION_ID
+        self.initialization_headers["User-Agent"] = instadata.USER_AGENT
+        self.initialization_headers["Content-Length"] = 288
+        self.initialization_headers["X-IG-WWW-Claim"] = 0
+        self.initialization_headers["X-Instagram-AJAX"] = '63a87693d17'
         self.initialization_headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
-
-    def init_user_agent(self):
-        return f"Instagram {instadata.APP_VERSION} Android {self.generate_build_device()}; {instadata.LANGUAGE};" \
-               f" {instadata.APP_VERSION_CODE} "
-
-    def generate_build_device(self):
-        count = len(DEVICES)
-        index = random.randint(0, count)
-
-        return DEVICES[index]
-
-    def generate_uuid(self) -> str:
-        return str(uuid.uuid4())
+        self.initialization_headers["Host"] = self.default_headers['Host']
+        self.initialization_headers["X-CSRFToken"] = ''
+        self.initialization_headers["X-IG-App-ID"] = 936619743392459
+        self.initialization_headers["Sec-Fetch-Site"] = 'same-origin'
+        self.initialization_headers["Sec-Fetch-Mode"] = 'cors'
+        self.initialization_headers["Sec-Fetch-Dest"] = 'empty'
+        self.initialization_headers["Referer"] = 'https://www.instagram.com/'
+        self.initialization_headers["Accept-Encoding"] = 'gzip, deflate, br'
+        self.initialization_headers["Accept-Language"] = self.default_headers["Accept-Language"]
+        self.initialization_headers["Cookie"] = 'ig_did=1106BD6C-3DD6-4EBD-B353-05948C7AA16D; ' \
+                                                'csrftoken=GmzQl4Y91OWXCP3Boce3AZRMHDAw8dKF; ' \
+                                                'mid=YD-SiwAEAAELCH-p293ePwQOkApD; ig_nrcb=1'
 
     def set_attribute_headers(self, key, value):
         self.initialization_headers[key] = value
