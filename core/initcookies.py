@@ -14,3 +14,11 @@ class InitCookies:
 
     def get_dict(self):
         return self.__dict__
+
+    def check_init_attributes(self):
+        return True if all(self.get_dict().values()) else False
+
+
+if __name__ == "__main__":
+    cookies = InitCookies()
+    print(cookies.check_init_attributes())

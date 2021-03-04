@@ -1,7 +1,6 @@
 import sys
-
-from seleniumwire import webdriver
 import time
+from seleniumwire import webdriver
 
 from logsource.logconfig import logger
 

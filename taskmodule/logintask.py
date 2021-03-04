@@ -51,7 +51,7 @@ class LoginTask:
             return {"status": False}
 
         # check if params csrftoken, mid, ig_did are passed
-        if initialization_cookies.mid and initialization_cookies.csrftoken:
+        if initialization_cookies.check_init_attributes():
             sys_report = SystemApiRequests(self.individual_id)
             # send report to api
             sys_report.task_report(task_id, data)
