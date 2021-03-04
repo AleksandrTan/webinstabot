@@ -30,3 +30,6 @@ INSTAGRAM_WEB_DATA = {
         "params": ""
     }
 }
+h = {'ig_did': 'A49DE7D1-CFD7-482D-9D74-8F851C43DAF6', 'csrftoken': 'APeSrNtoOcRY1podYQyZggoYbd2RxbZj',
+     'mid': 'YEDyQwAEAAHpNCiccdHUmaALGyoe', 'ig_nrcb': '1', 'rur': 'VLL', 'ds_user_id': '45540342156',
+     'sessionid': '45540342156%3A0m7rG6GooNOfGl%3A11'}

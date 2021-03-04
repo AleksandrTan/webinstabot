@@ -60,4 +60,7 @@ def set_headers(initialization_headers: object, headers: dict, cookies: dict):
     initialization_headers.set_attribute_headers("x-csrftoken", cookies["csrftoken"])
     initialization_headers.set_attribute_headers("x-ig-www-claim", headers["x-ig-www-claim"])
     initialization_headers.set_attribute_headers("x-ig-app-id", headers["x-ig-app-id"])
-    initialization_headers.set_attribute_headers("Cookie", cookies)
+    cookies_string = ''
+    for cookie in cookies.items():
+        cookies_string += cookie[0] + "=" + cookie[1] + "; "
+    initialization_headers.set_attribute_headers("Cookie", cookies_string.rstrip())
