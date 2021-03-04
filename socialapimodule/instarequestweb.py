@@ -18,7 +18,7 @@ class InstagramRequestsWeb:
         self.request = requests.Session()
         self.host_proxy = host_proxy
         self.port_proxy = port_proxy
-        self.requests_map = requestsmap.INSTAGRAM_MOBILE_DATA
+        self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
 
     def _make_request_post(self, main_url: str, uri: str, params: dict, headers: dict) -> dict:
         """
