@@ -8,7 +8,7 @@ import requests
 import json
 from logsource.logconfig import logger
 from settings import requestsmap
-from socialapimodule.loginrequest import LoginRequest
+from socialapimodule.loginrequest import login
 
 
 class InstagramRequestsWeb:
@@ -65,15 +65,10 @@ class InstagramRequestsWeb:
         :param initialization_parameters: object
         :return: dict
         """
-        pre_request_obj = LoginRequest(account_data, initialization_parameters, initialization_headers,
-                                       initialization_cookies, self.requests_map)
+        pre_request_obj = login(account_data, initialization_parameters, initialization_headers,
+                                initialization_cookies, self.requests_map)
 
-        login_data = pre_request_obj.login()
-
-        print(initialization_cookies.csrftoken)
-        print(initialization_headers.get_headers())
-
-        if not login_data["status"]:
+        if not pre_request_obj["status"]:
             logger.warning(f"The parameters required for the request are not set!")
 
             return {"status": False, "error": True}

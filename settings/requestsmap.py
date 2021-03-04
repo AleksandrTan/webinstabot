@@ -7,9 +7,7 @@ INSTAGRAM_WEB_DATA = {
     "main_url": "http://127.0.0.1:8000/",
 
     "login": {
-        "uri": "accounts/login/ajax/",
-        "data": "",
-        "params": ""
+        "uri": "https://www.instagram.com/accounts/login/ajax/",
     },
 
     "flipping_type": {

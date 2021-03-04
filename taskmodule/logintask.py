@@ -6,7 +6,6 @@ and the login request itself are performed.
 import sys
 
 from apimodule.systemapiwork import SystemApiRequests
-from pprint import pprint
 from logsource.logconfig import logger
 from core.initheaders import InitHeaders
 from core.initparams import InitParams
@@ -37,13 +36,16 @@ class LoginTask:
         initialization_headers = self.initialization_headers()
         initialization_cookies = self.initialization_cookies()
 
-        # run pre-requests
+        # run login
         # these requests are desirable and in addition,
-        # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did from the api
-        pre_requests = self.social_api.login(self.account_data, initialization_parameters, initialization_headers,
-                                             initialization_cookies)
+        # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did... from the api
+        login_data = self.social_api.login(self.account_data, initialization_parameters, initialization_headers,
+                                           initialization_cookies)
 
-        if not pre_requests:
+        print(initialization_cookies.get_dict())
+        print(initialization_headers.get_headers())
+
+        if not login_data:
             sys.stdout.write(f"The parameters necessary for the further operation of the bot {self.individual_id} "
                              f"were not received.!!!")
             logger.warning(f"The parameters necessary for the further operation of the bot {self.individual_id} "
