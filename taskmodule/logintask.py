@@ -41,9 +41,6 @@ class LoginTask:
         # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did... from the api
         login_data = self.social_api.login(self.account_data, initialization_headers, initialization_cookies)
 
-        print(initialization_cookies.get_dict())
-        print(initialization_headers.get_headers())
-
         if not login_data:
             sys.stdout.write(f"The parameters necessary for the further operation of the bot {self.individual_id} "
                              f"were not received.!!!")
@@ -53,13 +50,13 @@ class LoginTask:
             return {"status": False}
 
         # check if params csrftoken, mid, ig_did are passed
-        if initialization_parameters.mid and initialization_parameters.csrftoken:
+        if initialization_cookies.mid and initialization_cookies.csrftoken:
             sys_report = SystemApiRequests(self.individual_id)
             # send report to api
             sys_report.task_report(task_id, data)
             return {
                 "status": True, "initialization_parameters": initialization_parameters,
-                "initialization_headers": initialization_headers
+                "initialization_headers": initialization_headers, "initialization_cookies": initialization_cookies
             }
 
         return {"status": False}

@@ -17,32 +17,38 @@ def login(account_data: dict, initialization_headers: object, initialization_coo
             for new_one in new:
                 cooka = new_one.split('=')
                 cookies[cooka[0].strip()] = cooka[1].strip()
-        except AttributeError as error:
-            sys.stdout.write(f"Error {error}")
+        except AttributeError as errors_inter:
+            logger.warning(f"The authorization process was not correct.!!! Error - {errors_inter}")
+            sys.stdout.write(f"Error {errors_inter}")
 
-    # Create a new instance of the Chrome driver
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--window-size=10x10")
-    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=chrome_options)
+    try:
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--window-size=10x10")
+        driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=chrome_options)
 
-    driver.get(requests_map["main_url"])
-    time.sleep(5)
-    username_field = driver.find_element_by_name(requests_map["login"]["username_field"])
-    password_field = driver.find_element_by_name(requests_map["login"]["password_field"])
-    submit_elem = driver.find_element_by_tag_name('button')
-    username_field.send_keys(account_data["username"])
-    password_field.send_keys(account_data["password"])
-    submit_elem.click()
+        driver.get(requests_map["main_url"])
+        time.sleep(5)
+        username_field = driver.find_element_by_name(requests_map["login"]["username_field"])
+        password_field = driver.find_element_by_name(requests_map["login"]["password_field"])
+        submit_elem = driver.find_element_by_tag_name('button')
+        username_field.send_keys(account_data["username"])
+        password_field.send_keys(account_data["password"])
+        submit_elem.click()
 
-    driver.request_interceptor = interceptor
-    request = driver.wait_for_request(requests_map["login"]["uri"])
-    headers["x-ig-www-claim"] = request.response.headers["x-ig-set-www-claim"]
-    driver.close()
+        driver.request_interceptor = interceptor
+        request = driver.wait_for_request(requests_map["login"]["uri"])
+        headers["x-ig-www-claim"] = request.response.headers["x-ig-set-www-claim"]
+        driver.close()
 
-    set_cookies(initialization_cookies, cookies)
-    set_headers(initialization_headers, headers, cookies)
+        set_cookies(initialization_cookies, cookies)
+        set_headers(initialization_headers, headers, cookies)
 
-    return {"status": True}
+        return {"status": True}
+    except Exception as errors:
+        logger.warning(f"The authorization process was not correct.!!! Error - {errors}")
+        sys.stdout.write(f"Error login {errors} !")
+
+        return {"status": True}
 
 
 def set_cookies(initialization_cookies: object, cookies: dict):

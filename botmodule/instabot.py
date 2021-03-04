@@ -32,6 +32,7 @@ class InstaBot:
         """
         self.initialization_parameters = initialization_parameters
         self.initialization_headers = ''
+        self.initialization_cookies = ''
         self.individual_id = individual_id
         self.execution_status = False  # a flag that determines the state of the bot running shutdown
         self.login_task = login_task
@@ -59,8 +60,9 @@ class InstaBot:
             else:
                 self.initialization_parameters = data_authorization["initialization_parameters"]
                 self.initialization_headers = data_authorization["initialization_headers"]
-                pprint(self.initialization_parameters.get_dict())
-                pprint(self.initialization_headers.get_headers())
+                self.initialization_cookies = data_authorization["initialization_cookies"]
+                print(self.initialization_cookies.get_dict())
+                print(self.initialization_headers.get_headers())
                 self.execution_status = True
                 return
 

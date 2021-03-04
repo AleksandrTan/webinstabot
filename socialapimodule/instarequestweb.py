@@ -61,7 +61,6 @@ class InstagramRequestsWeb:
         :param initialization_cookies: object
         :param initialization_headers: object
         :param account_data: dict
-        :param initialization_parameters: object
         :return: dict
         """
         pre_request_obj = login(account_data, initialization_headers, initialization_cookies, self.requests_map)
