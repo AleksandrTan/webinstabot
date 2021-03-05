@@ -48,7 +48,8 @@ class InstaBot:
         logger.warning(f"Bot {self.individual_id} start working!!!")
         # log in to the social network
         if self.login_task:
-            data_authorization = self._perform_task(self.task_objects['login'], 0, self.initialization_parameters)
+            data_authorization = self._perform_task(self.task_objects['login'], 0, self.initialization_parameters,
+                                                    is_login=True)
 
             if not data_authorization['status']:
                 sys.stdout.write(f"The authorization process for the bot"
@@ -86,9 +87,15 @@ class InstaBot:
                 time.sleep(2)
                 continue
 
-    def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None) -> dict:
-        data_task = task_object.run(task_id, initialization_parameters)
+    def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None,
+                      is_login=False) -> dict:
+        if is_login:
+            data_task = task_object.run(task_id, initialization_parameters)
+        else:
+            data_task = task_object.run(task_id, initialization_parameters, self.initialization_cookies,
+                                        self.initialization_headers)
         time.sleep(2)
+
         return data_task
 
     def _get_new_task(self) -> dict:

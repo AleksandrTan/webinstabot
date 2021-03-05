@@ -22,11 +22,11 @@ class InitHeaders:
         self.initialization_headers["Referer"] = 'https://www.instagram.com/'
         self.initialization_headers["Accept-Encoding"] = 'gzip, deflate, br'
         self.initialization_headers["Accept-Language"] = self.default_headers["Accept-Language"]
-        self.initialization_headers["x-requested-with"] = "XMLHttpRequest"
-        self.initialization_headers["Cookie"] = ''
+        self.initialization_headers["cookie"] = ''
         self.initialization_headers["x-csrftoken"] = ""  # csrftoken cookie
         self.initialization_headers["x-ig-app-id"] = ""
         self.initialization_headers["x-ig-www-claim"] = ""
+        self.initialization_headers["x-requested-with"] = "XMLHttpRequest"
 
     def set_attribute_headers(self, key, value):
         self.initialization_headers[key] = value

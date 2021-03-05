@@ -56,6 +56,43 @@ class InstagramRequestsWeb:
 
         return {"status": False, "error": True, "error_type": response.status_code}
 
+    def _make_request_get(self, main_url: str, uri: str, params: dict, headers: dict) -> dict:
+        """
+        :param headers:
+        :param main_url: str
+        :param uri: str
+        :param params: dict
+        :return: dict
+        """
+        data = dict()
+        try:
+            response = self.request.get(main_url + uri, data=params, headers=headers)
+            try:
+                data = response.json()
+                print(main_url + uri, response.status_code, data, response.headers)
+                print(params)
+                print(headers)
+                print(self.request.cookies.get_dict())
+            except JSONDecodeError as error:
+                logger.warning(f"Error decode json - {error}, {response}")
+                return {"status": False, "error": True, "error_type": error, "error_message": data}
+
+        except requests.exceptions.ConnectionError as error:
+            logger.warning(f"{error}")
+            return {"status": False, "error": True, "error_type": error}
+
+        if response.status_code == 400:
+            logger.warning(f"Error login request {response.status_code}, {data}")
+
+            return {"status": False, "error_type": "Error login request"}
+
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            if data["status"] == 'ok':
+                return {"status": True, "data": data}
+
+        return {"status": False, "error": True, "error_type": response.status_code}
+
     def login(self, account_data: dict, initialization_headers: object, initialization_cookies: object) -> dict:
         """
         :param initialization_cookies: object
@@ -89,9 +126,9 @@ class InstagramRequestsWeb:
         :param params: dict
         :return: dict
         """
-        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],
-                                           params,
-                                           authorization_data)
+        response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],
+                                          params,
+                                          authorization_data)
 
         return response
 
