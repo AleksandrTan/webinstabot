@@ -2,7 +2,6 @@
 A class for making requests to the social network Instagram used mobile API
 """
 from json.decoder import JSONDecodeError
-from pprint import pprint
 
 import requests
 import json
@@ -32,10 +31,6 @@ class InstagramRequestsWeb:
             response = self.request.post(main_url + uri, data=params, headers=headers)
             try:
                 data = response.json()
-                print(main_url + uri, response.status_code, data, response.headers)
-                print(params)
-                print(headers)
-                print(self.request.cookies.get_dict())
             except JSONDecodeError as error:
                 logger.warning(f"Error decode json - {error}, {response}")
                 return {"status": False, "error": True, "error_type": error, "error_message": data}
@@ -66,7 +61,6 @@ class InstagramRequestsWeb:
         """
         data = dict()
         try:
-            print(params)
             response = self.request.get(main_url + uri, params=params, headers=headers)
             try:
                 data = response.json()
@@ -130,17 +124,6 @@ class InstagramRequestsWeb:
 
         return response
 
-    def like(self, params: dict, authorization_data: dict) -> dict:
-        """
-        :param authorization_data: dict
-        :param params: dict
-        :return: dict
-        """
-        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["like"]["uri"], params,
-                                           authorization_data)
-
-        return response
-
     def flipping_tape(self, initialization_parameters: object, initialization_headers: object,
                       initialization_cookies: object) -> dict:
         """
@@ -163,6 +146,17 @@ class InstagramRequestsWeb:
         response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],
                                           request_data, initialization_headers.get_headers(),
                                           initialization_cookies.get_dict())
+
+        return response
+
+    def like(self, params: dict, authorization_data: dict) -> dict:
+        """
+        :param authorization_data: dict
+        :param params: dict
+        :return: dict
+        """
+        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["like"]["uri"], params,
+                                           authorization_data)
 
         return response
 

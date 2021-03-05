@@ -60,18 +60,17 @@ class InstaBot:
                 return False
             else:
                 # run PageHashTask
-                # data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
-                print(self.initialization_parameters.get_dict())
-                print(self.initialization_cookies.get_dict())
-                print(self.initialization_headers.get_headers())
-                self.execution_status = True
+                sys.stdout.write("Task PageHashTask is running!\n")
+                data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
+                if not data_authorization['status']:
+                    sys.stdout.write(f"The authorization process for the bot"
+                                     f" number {self.individual_id} was not correct.!!!")
+                    logger.warning(
+                        f"The authorization process for the bot number {self.individual_id} was not correct.!!!")
 
-                return
+                    return False
 
         while self.execution_status:
-            data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
-            print(self.initialization_parameters.get_dict())
-            print(data_authorization)
             new_task = self._get_new_task()
 
             if new_task["status"]:
@@ -102,10 +101,10 @@ class InstaBot:
                 return None
 
     def _perform_task(self, task_object: object, task_id: int) -> dict:
-
         data_task = task_object.run(task_id, self.initialization_parameters, self.initialization_headers,
                                     self.initialization_cookies)
-        time.sleep(2)
+
+        time.sleep(5)
 
         return data_task
 
@@ -123,6 +122,6 @@ class InstaBot:
 
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
-                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1}, login_task=False)
+                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1})
 
     bot.start()
