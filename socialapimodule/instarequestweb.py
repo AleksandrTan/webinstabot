@@ -123,7 +123,8 @@ class InstagramRequestsWeb:
 
         return response
 
-    def flipping_tape(self, authorization_data: dict, initialization_headers:object, initialization_cookies: object) -> dict:
+    def flipping_tape(self, authorization_data: dict, initialization_headers: object,
+                      initialization_cookies: object) -> dict:
         """
         :param initialization_cookies: object
         :param initialization_headers: object

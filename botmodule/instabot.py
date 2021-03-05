@@ -51,8 +51,7 @@ class InstaBot:
         logger.warning(f"Bot {self.individual_id} start working!!!")
         # log in to the social network
         if self.login_task:
-            data_authorization = self._perform_task(self.task_objects['login'], 0, self.initialization_parameters,
-                                                    is_login=True)
+            data_authorization = self._perform_task(self.task_objects['login'], 0, self.initialization_parameters)
 
             if not data_authorization['status']:
                 sys.stdout.write(f"The authorization process for the bot"
@@ -61,9 +60,6 @@ class InstaBot:
 
                 return False
             else:
-                self.initialization_parameters = data_authorization["initialization_parameters"]
-                self.initialization_headers = data_authorization["initialization_headers"]
-                self.initialization_cookies = data_authorization["initialization_cookies"]
                 print(self.initialization_cookies.get_dict())
                 print(self.initialization_headers.get_headers())
                 self.execution_status = True
@@ -92,8 +88,8 @@ class InstaBot:
 
     def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None) -> dict:
 
-        data_task = task_object.run(task_id, initialization_parameters, self.initialization_cookies,
-                                    self.initialization_headers)
+        data_task = task_object.run(task_id, initialization_parameters, self.initialization_headers,
+                                    self.initialization_cookies)
         time.sleep(2)
 
         return data_task
@@ -112,6 +108,6 @@ class InstaBot:
 
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
-                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {}, login_task=False)
+                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {}, login_task=True)
 
     bot.start()
