@@ -4,7 +4,7 @@ Performs the flipping tape of implementing a like on a social network
 from apimodule.systemapiwork import SystemApiRequests
 
 
-class FlippingTapeTask:
+class PageHashTask:
 
     def __init__(self, social_api, account_data: dict, individual_bot_id: int):
         self.social_api = social_api
@@ -13,22 +13,19 @@ class FlippingTapeTask:
         self.fetch_media_item_cursor = ''
         self.has_next_page = True
 
-    def run(self, task_id: int, authorization_data: dict, initialization_headers: object,
-            initialization_cookies: object) -> dict:
+    def run(self, task_id: int, initialization_headers: object, initialization_cookies: object) -> dict:
         """
         Run task
         :param initialization_cookies: object
         :param initialization_headers: object
-        :param authorization_data: dict
         :param task_id: int
         :return: dict
         """
-        data_result = self.social_api.flipping_tape(self.fetch_media_item_cursor, initialization_headers,
-                                                    initialization_cookies)
+        data_result = self.social_api.flipping_tape(initialization_headers, initialization_cookies)
         if data_result["status"]:
             if data_result["data"]["status"] == 'ok':
                 self.fetch_media_item_cursor = \
-                data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["end_cursor"]
+                    data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["end_cursor"]
 
                 self.has_next_page = \
                     data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["has_next_page"]

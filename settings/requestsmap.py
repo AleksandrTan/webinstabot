@@ -12,6 +12,15 @@ INSTAGRAM_WEB_DATA = {
         "username_field": "username",
     },
 
+    "start_request": {
+        "uri": "graphql/query/",
+        "params": {"query_hash": "b1245d9d251dff47d91080fbdd6b274a",
+                   "variables": {
+                       "has_threaded_comments": True
+                       }
+                   }
+        },
+
     "flipping_type": {
         "uri": "graphql/query/",
         "params": {"query_hash": "b1245d9d251dff47d91080fbdd6b274a",

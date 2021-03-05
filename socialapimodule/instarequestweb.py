@@ -105,6 +105,10 @@ class InstagramRequestsWeb:
 
         return {"status": True}
 
+    def page_hash_task(self, fetch_media_item_cursor: str, initialization_headers: object,
+                      initialization_cookies: object) -> dict:
+        pass
+
     def like(self, params: dict, authorization_data: dict) -> dict:
         """
         :param authorization_data: dict
