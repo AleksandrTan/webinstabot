@@ -11,6 +11,8 @@ from logsource.logconfig import logger
 from taskmodule.inittask import InitTasks
 from apimodule.systemapiwork import SystemApiRequests
 from socialapimodule.instarequestweb import InstagramRequestsWeb
+from core.initheaders import InitHeaders
+from core.initcookies import InitCookies
 
 
 class InstaBot:
@@ -30,10 +32,11 @@ class InstaBot:
         :param initialization_parameters: dict
         """
         self.initialization_parameters = initialization_parameters
-        self.initialization_headers = ''
-        self.initialization_cookies = ''
+        self.initialization_headers = InitHeaders()
+        self.initialization_cookies = InitCookies()
+
         self.individual_id = individual_id
-        self.execution_status = False  # a flag that determines the state of the bot running shutdown
+        self.execution_status = True  # a flag that determines the state of the bot running shutdown
         self.login_task = login_task
         self.account_data = account_data
         self.host_proxy = host_proxy
@@ -87,13 +90,10 @@ class InstaBot:
                 time.sleep(2)
                 continue
 
-    def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None,
-                      is_login=False) -> dict:
-        if is_login:
-            data_task = task_object.run(task_id, initialization_parameters)
-        else:
-            data_task = task_object.run(task_id, initialization_parameters, self.initialization_cookies,
-                                        self.initialization_headers)
+    def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None) -> dict:
+
+        data_task = task_object.run(task_id, initialization_parameters, self.initialization_cookies,
+                                    self.initialization_headers)
         time.sleep(2)
 
         return data_task
@@ -112,6 +112,6 @@ class InstaBot:
 
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
-                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {})
+                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {}, login_task=False)
 
     bot.start()

@@ -14,7 +14,7 @@ INSTAGRAM_WEB_DATA = {
 
     "flipping_type": {
         "uri": "graphql/query/",
-        "params": {"query_hash": "24a36f49b32dea22e33c2e6e35bad4d3/-/ed2e3ff5ae8b96717476b62ef06ed8cc",
+        "params": {"query_hash": "b1245d9d251dff47d91080fbdd6b274a",
                    "variables": {
                        "cached_feed_item_ids": [],
                        "fetch_media_item_count": 12,

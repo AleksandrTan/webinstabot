@@ -18,6 +18,9 @@ class InstagramRequestsWeb:
         self.host_proxy = host_proxy
         self.port_proxy = port_proxy
         self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
+        self.initialization_parameters = ''
+        self.initialization_headers = ''
+        self.initialization_cookies = ''
 
     def _make_request_post(self, main_url: str, uri: str, params: dict, headers: dict) -> dict:
         """
@@ -120,15 +123,15 @@ class InstagramRequestsWeb:
 
         return response
 
-    def flipping_tape(self, params: dict, authorization_data: dict) -> dict:
+    def flipping_tape(self, authorization_data: dict, initialization_headers:object, initialization_cookies: object) -> dict:
         """
+        :param initialization_cookies: object
+        :param initialization_headers: object
         :param authorization_data: dict
         :param params: dict
         :return: dict
         """
-        response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],
-                                          params,
-                                          authorization_data)
+        response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"], authorization_data)
 
         return response
 

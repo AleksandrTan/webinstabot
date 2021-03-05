@@ -11,14 +11,17 @@ class FlippingTapeTask:
         self.account_data = account_data
         self.individual_id = individual_bot_id
 
-    def run(self, task_id: int, authorization_data: dict) -> dict:
+    def run(self, task_id: int, authorization_data: dict, initialization_headers: object,
+            initialization_cookies: object) -> dict:
         """
         Run task
+        :param initialization_cookies: object
+        :param initialization_headers: object
         :param authorization_data: dict
         :param task_id: int
         :return: dict
         """
-        data_result = self.social_api.flipping_tape({}, authorization_data)
+        data_result = self.social_api.flipping_tape(authorization_data, initialization_headers, initialization_cookies)
         sys_report = SystemApiRequests(self.individual_id)
         # send report to api
         sys_report.task_report(task_id, data_result)
