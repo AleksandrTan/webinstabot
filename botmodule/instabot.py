@@ -69,6 +69,9 @@ class InstaBot:
                 return
 
         while self.execution_status:
+            data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
+            print(self.initialization_parameters.get_dict())
+            print(data_authorization)
             new_task = self._get_new_task()
 
             if new_task["status"]:

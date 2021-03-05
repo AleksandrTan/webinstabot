@@ -66,6 +66,7 @@ class InstagramRequestsWeb:
         """
         data = dict()
         try:
+            print(params)
             response = self.request.get(main_url + uri, params=params, headers=headers)
             try:
                 data = response.json()
@@ -105,10 +106,10 @@ class InstagramRequestsWeb:
 
         return {"status": True}
 
-    def page_hash_task(self, fetch_media_item_cursor: str, initialization_headers: object,
+    def page_hash_task(self, initialization_parameters: object, initialization_headers: object,
                        initialization_cookies: object) -> dict:
         """
-        :param fetch_media_item_cursor: str
+        :param initialization_parameters: object
         :param initialization_cookies: object
         :param initialization_headers: object
         :return: dict
@@ -117,10 +118,10 @@ class InstagramRequestsWeb:
         request_data = dict()
         request_data["query_hash"] = self.requests_map["start_request"]["params"]["query_hash"]
         variables = self.requests_map["start_request"]["params"]["variables"]
-        if fetch_media_item_cursor:
-            variables["fetch_media_item_cursor"] = fetch_media_item_cursor
-
-        request_data["variables"] = variables
+        for key in variables:
+            request_data[key] = variables[key]
+        if initialization_parameters.fetch_media_item_cursor:
+            request_data["fetch_media_item_cursor"] = initialization_parameters.fetch_media_item_cursor
 
         # request
         response = self._make_request_get(self.requests_map["main_url"], self.requests_map["start_request"]["uri"],
@@ -150,12 +151,13 @@ class InstagramRequestsWeb:
         """
         # prepare params for request
         request_data = dict()
-        request_data["query_hash"] = self.requests_map["flipping_type"]["params"]["query_hash"]
-        variables = self.requests_map["flipping_type"]["params"]["variables"]
-        if initialization_parameters.fetch_media_item_cursor:
-            variables["fetch_media_item_cursor"] = initialization_parameters.fetch_media_item_cursor
+        request_data["query_hash"] = self.requests_map["start_request"]["params"]["query_hash"]
+        variables = self.requests_map["start_request"]["params"]["variables"]
+        for key in variables:
+            request_data[key] = variables[key]
 
-        request_data["variables"] = variables
+        if initialization_parameters.fetch_media_item_cursor:
+            request_data["fetch_media_item_cursor"] = initialization_parameters.fetch_media_item_cursor
 
         # request
         response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],

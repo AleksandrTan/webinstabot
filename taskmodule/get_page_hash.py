@@ -21,7 +21,8 @@ class PageHashTask:
         :param task_id: int
         :return: dict
         """
-        data_result = self.social_api.page_hash_task(initialization_headers, initialization_cookies)
+        data_result = self.social_api.page_hash_task(initialization_parameters, initialization_headers,
+                                                     initialization_cookies)
         if data_result["status"]:
             if data_result["data"]["status"] == 'ok':
                 initialization_parameters.fetch_media_item_cursor = \
