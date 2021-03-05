@@ -72,8 +72,11 @@ class InstaBot:
             if new_task["status"]:
                 # run new task
                 sys.stdout.write(f"Task {new_task['task_name']} is running!\n")
-                self._perform_task(self.task_objects[new_task["task_name"]], new_task['task_id'])
-                continue
+                task_result = self._perform_task(self.task_objects["flipping_tape"], 3)
+                if task_result["status"]:
+                    time.sleep(2)
+                    continue
+                return
 
             elif new_task["error"]:
                 sys.stdout.write("Server error!!!\n")
@@ -82,9 +85,11 @@ class InstaBot:
 
             else:
                 sys.stdout.write("No tasks, I work autonomously!\n")
-                self._perform_task(self.task_objects["flipping_tape"], 3)
-                time.sleep(2)
-                continue
+                task_result = self._perform_task(self.task_objects["flipping_tape"], 3)
+                if task_result["status"]:
+                    time.sleep(2)
+                    continue
+                return None
 
     def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None) -> dict:
 
@@ -108,6 +113,6 @@ class InstaBot:
 
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
-                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {}, login_task=True)
+                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {}, login_task=False)
 
     bot.start()

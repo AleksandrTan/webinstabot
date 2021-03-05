@@ -14,13 +14,10 @@ from socialapimodule.loginrequest import login
 class InstagramRequestsWeb:
 
     def __init__(self, host_proxy: str, port_proxy: int):
-        self.request = requests.Session()
+        self.request = requests
         self.host_proxy = host_proxy
         self.port_proxy = port_proxy
         self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
-        self.initialization_parameters = ''
-        self.initialization_headers = ''
-        self.initialization_cookies = ''
 
     def _make_request_post(self, main_url: str, uri: str, params: dict, headers: dict) -> dict:
         """
@@ -59,7 +56,7 @@ class InstagramRequestsWeb:
 
         return {"status": False, "error": True, "error_type": response.status_code}
 
-    def _make_request_get(self, main_url: str, uri: str, params: dict, headers: dict) -> dict:
+    def _make_request_get(self, main_url: str, uri: str, params: dict, headers: dict, cookies: dict) -> dict:
         """
         :param headers:
         :param main_url: str
@@ -69,13 +66,9 @@ class InstagramRequestsWeb:
         """
         data = dict()
         try:
-            response = self.request.get(main_url + uri, data=params, headers=headers)
+            response = self.request.get(main_url + uri, params=params, headers=headers)
             try:
                 data = response.json()
-                print(main_url + uri, response.status_code, data, response.headers)
-                print(params)
-                print(headers)
-                print(self.request.cookies.get_dict())
             except JSONDecodeError as error:
                 logger.warning(f"Error decode json - {error}, {response}")
                 return {"status": False, "error": True, "error_type": error, "error_message": data}
@@ -123,17 +116,27 @@ class InstagramRequestsWeb:
 
         return response
 
-    def flipping_tape(self, authorization_data: dict, initialization_headers: object,
+    def flipping_tape(self, fetch_media_item_cursor: str, initialization_headers: object,
                       initialization_cookies: object) -> dict:
         """
+        :param fetch_media_item_cursor: str
         :param initialization_cookies: object
         :param initialization_headers: object
-        :param authorization_data: dict
-        :param params: dict
         :return: dict
         """
-        response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"], authorization_data)
+        # prepare params for request
+        request_data = dict()
+        request_data["query_hash"] = self.requests_map["flipping_type"]["params"]["query_hash"]
+        variables = self.requests_map["flipping_type"]["params"]["variables"]
+        if fetch_media_item_cursor:
+            variables["fetch_media_item_cursor"] = fetch_media_item_cursor
 
+        request_data["variables"] = variables
+
+        # request
+        response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],
+                                          request_data, initialization_headers.get_headers(),
+                                          initialization_cookies.get_dict())
         return response
 
     def subscribe(self, params: dict, authorization_data: dict) -> dict:

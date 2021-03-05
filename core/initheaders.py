@@ -13,13 +13,14 @@ class InitHeaders:
 
     def make_headers(self):
         self.initialization_headers["User-Agent"] = instadata.USER_AGENT
-        self.initialization_headers["Content-Length"] = 288
-        self.initialization_headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
-        self.initialization_headers["Host"] = self.default_headers['Host']
+        # self.initialization_headers["Content-Length"] = '288'
+        # self.initialization_headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
+        # self.initialization_headers["Host"] = self.default_headers['Host']
         self.initialization_headers["Sec-Fetch-Site"] = 'same-origin'
         self.initialization_headers["Sec-Fetch-Mode"] = 'cors'
         self.initialization_headers["Sec-Fetch-Dest"] = 'empty'
-        self.initialization_headers["Referer"] = 'https://www.instagram.com/'
+        self.initialization_headers["Referer"] = '127.0.0.1'
+        # self.initialization_headers["Referer"] = 'https://www.instagram.com/'
         self.initialization_headers["Accept-Encoding"] = 'gzip, deflate, br'
         self.initialization_headers["Accept-Language"] = self.default_headers["Accept-Language"]
         self.initialization_headers["cookie"] = ''
