@@ -13,6 +13,7 @@ from apimodule.systemapiwork import SystemApiRequests
 from socialapimodule.instarequestweb import InstagramRequestsWeb
 from core.initheaders import InitHeaders
 from core.initcookies import InitCookies
+from core.initparams import InitParams
 
 
 class InstaBot:
@@ -31,10 +32,9 @@ class InstaBot:
         :param account_data: dict
         :param initialization_parameters: dict
         """
-        self.initialization_parameters = initialization_parameters
+        self.initialization_parameters = InitParams(initialization_parameters)
         self.initialization_headers = InitHeaders()
         self.initialization_cookies = InitCookies()
-
         self.individual_id = individual_id
         self.execution_status = True  # a flag that determines the state of the bot running shutdown
         self.login_task = login_task
@@ -51,8 +51,7 @@ class InstaBot:
         logger.warning(f"Bot {self.individual_id} start working!!!")
         # log in to the social network
         if self.login_task:
-            data_authorization = self._perform_task(self.task_objects['login'], 0, self.initialization_parameters)
-
+            data_authorization = self._perform_task(self.task_objects['login'], 0)
             if not data_authorization['status']:
                 sys.stdout.write(f"The authorization process for the bot"
                                  f" number {self.individual_id} was not correct.!!!")
@@ -60,6 +59,9 @@ class InstaBot:
 
                 return False
             else:
+                # run PageHashTask
+                # data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
+                print(self.initialization_parameters.get_dict())
                 print(self.initialization_cookies.get_dict())
                 print(self.initialization_headers.get_headers())
                 self.execution_status = True
@@ -73,9 +75,14 @@ class InstaBot:
                 # run new task
                 sys.stdout.write(f"Task {new_task['task_name']} is running!\n")
                 task_result = self._perform_task(self.task_objects["flipping_tape"], 3)
+
                 if task_result["status"]:
-                    time.sleep(2)
+                    sys.stdout.write(f"Task {new_task['task_name']} completed work successfully!\n")
+                    time.sleep(5)
                     continue
+                else:
+                    sys.stdout.write(f"Task {new_task['task_name']} completed work with an error, check the log file "
+                                     f"loging_fbi.log!\n")
                 return
 
             elif new_task["error"]:
@@ -91,9 +98,9 @@ class InstaBot:
                     continue
                 return None
 
-    def _perform_task(self, task_object: object, task_id: int, initialization_parameters: dict = None) -> dict:
+    def _perform_task(self, task_object: object, task_id: int) -> dict:
 
-        data_task = task_object.run(task_id, initialization_parameters, self.initialization_headers,
+        data_task = task_object.run(task_id, self.initialization_parameters, self.initialization_headers,
                                     self.initialization_cookies)
         time.sleep(2)
 
@@ -113,6 +120,6 @@ class InstaBot:
 
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
-                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {}, login_task=False)
+                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1}, login_task=False)
 
     bot.start()

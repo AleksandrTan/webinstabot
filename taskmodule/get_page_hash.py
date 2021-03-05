@@ -10,24 +10,24 @@ class PageHashTask:
         self.social_api = social_api
         self.account_data = account_data
         self.individual_id = individual_bot_id
-        self.fetch_media_item_cursor = ''
-        self.has_next_page = True
 
-    def run(self, task_id: int, initialization_headers: object, initialization_cookies: object) -> dict:
+    def run(self, task_id: int, initialization_parameters: object, initialization_headers: object,
+            initialization_cookies: object) -> dict:
         """
         Run task
+        :param initialization_parameters: object
         :param initialization_cookies: object
         :param initialization_headers: object
         :param task_id: int
         :return: dict
         """
-        data_result = self.social_api.flipping_tape(initialization_headers, initialization_cookies)
+        data_result = self.social_api.page_hash_task(initialization_headers, initialization_cookies)
         if data_result["status"]:
             if data_result["data"]["status"] == 'ok':
-                self.fetch_media_item_cursor = \
+                initialization_parameters.fetch_media_item_cursor = \
                     data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["end_cursor"]
 
-                self.has_next_page = \
+                initialization_parameters.has_next_page = \
                     data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["has_next_page"]
 
         sys_report = SystemApiRequests(self.individual_id)

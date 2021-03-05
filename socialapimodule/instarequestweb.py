@@ -14,7 +14,7 @@ from socialapimodule.loginrequest import login
 class InstagramRequestsWeb:
 
     def __init__(self, host_proxy: str, port_proxy: int):
-        self.request = requests
+        self.request = requests.Session()
         self.host_proxy = host_proxy
         self.port_proxy = port_proxy
         self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
@@ -106,8 +106,28 @@ class InstagramRequestsWeb:
         return {"status": True}
 
     def page_hash_task(self, fetch_media_item_cursor: str, initialization_headers: object,
-                      initialization_cookies: object) -> dict:
-        pass
+                       initialization_cookies: object) -> dict:
+        """
+        :param fetch_media_item_cursor: str
+        :param initialization_cookies: object
+        :param initialization_headers: object
+        :return: dict
+        """
+        # prepare params for request
+        request_data = dict()
+        request_data["query_hash"] = self.requests_map["start_request"]["params"]["query_hash"]
+        variables = self.requests_map["start_request"]["params"]["variables"]
+        if fetch_media_item_cursor:
+            variables["fetch_media_item_cursor"] = fetch_media_item_cursor
+
+        request_data["variables"] = variables
+
+        # request
+        response = self._make_request_get(self.requests_map["main_url"], self.requests_map["start_request"]["uri"],
+                                          request_data, initialization_headers.get_headers(),
+                                          initialization_cookies.get_dict())
+
+        return response
 
     def like(self, params: dict, authorization_data: dict) -> dict:
         """
@@ -120,10 +140,10 @@ class InstagramRequestsWeb:
 
         return response
 
-    def flipping_tape(self, fetch_media_item_cursor: str, initialization_headers: object,
+    def flipping_tape(self, initialization_parameters: object, initialization_headers: object,
                       initialization_cookies: object) -> dict:
         """
-        :param fetch_media_item_cursor: str
+        :param initialization_parameters: object
         :param initialization_cookies: object
         :param initialization_headers: object
         :return: dict
@@ -132,8 +152,8 @@ class InstagramRequestsWeb:
         request_data = dict()
         request_data["query_hash"] = self.requests_map["flipping_type"]["params"]["query_hash"]
         variables = self.requests_map["flipping_type"]["params"]["variables"]
-        if fetch_media_item_cursor:
-            variables["fetch_media_item_cursor"] = fetch_media_item_cursor
+        if initialization_parameters.fetch_media_item_cursor:
+            variables["fetch_media_item_cursor"] = initialization_parameters.fetch_media_item_cursor
 
         request_data["variables"] = variables
 
@@ -141,6 +161,7 @@ class InstagramRequestsWeb:
         response = self._make_request_get(self.requests_map["main_url"], self.requests_map["flipping_type"]["uri"],
                                           request_data, initialization_headers.get_headers(),
                                           initialization_cookies.get_dict())
+
         return response
 
     def subscribe(self, params: dict, authorization_data: dict) -> dict:

@@ -3,8 +3,9 @@ Bot tasks initialization class
 """
 from socialapimodule.instarequestweb import InstagramRequestsWeb
 from taskmodule.logintask import LoginTask
-from taskmodule.liketask import LikeTask
+from taskmodule.get_page_hash import PageHashTask
 from taskmodule.flipping_tape import FlippingTapeTask
+from taskmodule.liketask import LikeTask
 
 
 class InitTasks:
@@ -15,9 +16,11 @@ class InitTasks:
         self.individual_id = individual_id
         self.social_api = InstagramRequestsWeb(self.host_proxy, self.port_proxy)
         self.task_objects = dict({"login": LoginTask(self.social_api, self.account_data, self.individual_id),
-                                  "like": LikeTask(self.social_api, self.account_data, self.individual_id),
+                                  "page_hash": PageHashTask(self.social_api, self.account_data, self.individual_id),
                                   "flipping_tape": FlippingTapeTask(self.social_api, self.account_data,
-                                                                    self.individual_id)})
+                                                                    self.individual_id),
+                                  "like": LikeTask(self.social_api, self.account_data, self.individual_id),
+                                  })
 
     def get_init_tasks(self):
         return self.task_objects
