@@ -3,6 +3,7 @@ import time
 from seleniumwire import webdriver
 
 from logsource.logconfig import logger
+import config
 
 
 def login(account_data: dict, initialization_headers: object, initialization_cookies: object, requests_map: dict):
@@ -23,7 +24,7 @@ def login(account_data: dict, initialization_headers: object, initialization_coo
     try:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--window-size=10x10")
-        driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=chrome_options)
+        driver = webdriver.Chrome(executable_path=config.PATH_TO_CHROMEDRIVER, options=chrome_options)
 
         driver.get(requests_map["main_url"])
         time.sleep(5)

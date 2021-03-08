@@ -3,8 +3,8 @@ Settings file for queries to social networks API
 """
 
 INSTAGRAM_WEB_DATA = {
-    "main_url": "https://www.instagram.com/",
-    # "main_url": "http://127.0.0.1:8000/",
+    # "main_url": "https://www.instagram.com/",
+    "main_url": "http://127.0.0.1:8000/graphql/",
 
     "login": {
         "uri": "https://www.instagram.com/accounts/login/ajax/",
@@ -27,7 +27,7 @@ INSTAGRAM_WEB_DATA = {
                    "variables": {
                        "cached_feed_item_ids": [],
                        "fetch_media_item_count": 12,
-                       "fetch_media_item_cursor": "KCcBDAAoABgAEAAQAAgACADdeo4m9l_m8Ngr__N__89vttYBa2BtIBAW4pOCloBeKhQEAA==",
+                       "fetch_media_item_cursor": "",
                        "fetch_comment_count": 4,
                        "fetch_like": 3,
                        "has_stories": False,
@@ -37,9 +37,7 @@ INSTAGRAM_WEB_DATA = {
         },
 
     "like": {
-        "uri": "api/successlike/",
-        "data": "",
-        "params": ""
+        "uri": "web/likes/post_id/like/",
     },
 
     "subscribe": {

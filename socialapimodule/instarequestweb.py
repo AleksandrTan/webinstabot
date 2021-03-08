@@ -18,7 +18,7 @@ class InstagramRequestsWeb:
         self.port_proxy = port_proxy
         self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
 
-    def _make_request_post(self, main_url: str, uri: str, params: dict, headers: dict) -> dict:
+    def _make_request_post(self, main_url: str, uri: str, params: dict, headers: dict, cookies: dict) -> dict:
         """
         :param headers:
         :param main_url: str
@@ -149,14 +149,20 @@ class InstagramRequestsWeb:
 
         return response
 
-    def like(self, params: dict, authorization_data: dict) -> dict:
+    def like(self, initialization_parameters: object, initialization_headers: object,
+             initialization_cookies: object) -> dict:
         """
+        :param initialization_cookies: object
+        :param initialization_parameters: object
+        :param initialization_headers: object
         :param authorization_data: dict
         :param params: dict
         :return: dict
         """
-        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["like"]["uri"], params,
-                                           authorization_data)
+        request_data = dict()
+        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["like"]["uri"],
+                                           request_data, initialization_headers.get_headers(),
+                                           initialization_cookies.get_dict())
 
         return response
 

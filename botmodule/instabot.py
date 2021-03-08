@@ -72,11 +72,12 @@ class InstaBot:
 
         while self.execution_status:
             new_task = self._get_new_task()
+            print(new_task)
 
             if new_task["status"]:
                 # run new task
                 sys.stdout.write(f"Task {new_task['task_name']} is running!\n")
-                task_result = self._perform_task(self.task_objects["flipping_tape"], 3)
+                task_result = self._perform_task(self.task_objects[new_task['task_name']], new_task['task_id'])
 
                 if task_result["status"]:
                     sys.stdout.write(f"Task {new_task['task_name']} completed work successfully!\n")
@@ -122,6 +123,7 @@ class InstaBot:
 
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
-                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1})
+                   SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1},
+                   login_task=False)
 
     bot.start()
