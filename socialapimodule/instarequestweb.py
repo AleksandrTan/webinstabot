@@ -74,8 +74,10 @@ class InstagramRequestsWeb:
             logger.warning(f"{error}")
             return {"status": False, "error": True, "error_type": error}
 
-        if response.status_code == 400:
-            logger.warning(f"Error login request {response.status_code}, {data}")
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as error:
+            logger.warning(f"Error login request {response.status_code}, {data}!")
 
             return {"status": False, "error": True, "error_type": response.status_code}
 
