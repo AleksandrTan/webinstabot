@@ -155,24 +155,32 @@ class InstagramRequestsWeb:
         :param initialization_cookies: object
         :param initialization_parameters: object
         :param initialization_headers: object
-        :param authorization_data: dict
-        :param params: dict
         :return: dict
         """
         request_data = dict()
-        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["like"]["uri"],
-                                           request_data, initialization_headers.get_headers(),
-                                           initialization_cookies.get_dict())
+        post_id = initialization_parameters.get_post_id()
+        if post_id:
+            uri = self.requests_map["like"]["uri"].replace('post_id', str(post_id))
+            response = self._make_request_post(self.requests_map["main_url"], uri, request_data,
+                                               initialization_headers.get_headers(),
+                                               initialization_cookies.get_dict())
 
-        return response
+            return response
 
-    def subscribe(self, params: dict, authorization_data: dict) -> dict:
+        else:
+            return {"status": False}
+
+    def subscribe(self, initialization_parameters: object, initialization_headers: object,
+                  initialization_cookies: object) -> dict:
         """
-        :param authorization_data: dict
-        :param params: dict
+        :param initialization_headers:
+        :param initialization_parameters:
+        :param initialization_cookies:
         :return: dict
         """
-        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["subscribe"]["uri"], params,
-                                           authorization_data)
+        request_data = dict()
+        response = self._make_request_post(self.requests_map["main_url"], self.requests_map["subscribe"]["uri"],
+                                           request_data, initialization_headers.get_headers(),
+                                           initialization_cookies.get_dict())
 
         return response

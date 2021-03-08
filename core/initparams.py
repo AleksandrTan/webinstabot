@@ -1,9 +1,11 @@
+import random
+
 class InitParams:
 
     def __init__(self, initialization_parameters: dict = None):
         self.fetch_media_item_cursor = ''
         self.has_next_page = True
-        self.posts_id_list = list()
+        self.posts_id_list = list([1, 2, 3])
         # if initialization_parameters are passed to the bot constructor
         if initialization_parameters:
             for param in initialization_parameters.items():
@@ -14,3 +16,10 @@ class InitParams:
 
     def get_dict(self):
         return self.__dict__
+
+    def get_post_id(self):
+        print(self.posts_id_list)
+        if self.posts_id_list:
+            return self.posts_id_list[random.randint(0, len(self.posts_id_list) - 1)]
+
+        return False
