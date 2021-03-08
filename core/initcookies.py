@@ -1,13 +1,13 @@
 class InitCookies:
 
     def __init__(self):
-        self.csrftoken = 'g'
-        self.mid = 'g'
-        self.ig_did = 'g'
-        self.ds_user_id = 'g'
-        self.sessionid = 'g'
-        self.ig_nrcb = 'g'
-        self.rur = 'g'
+        self.csrftoken = str()
+        self.mid = str()
+        self.ig_did = str()
+        self.ds_user_id = str()
+        self.sessionid = str()
+        self.ig_nrcb = str()
+        self.rur = str()
 
     def __setattr__(self, key, value):
         super().__setattr__(key, value)

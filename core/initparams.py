@@ -3,7 +3,7 @@ class InitParams:
     def __init__(self, initialization_parameters: dict = None):
         self.fetch_media_item_cursor = ''
         self.has_next_page = True
-        self.posts_id_list_like = list()
+        self.posts_id_list = list()
         # if initialization_parameters are passed to the bot constructor
         if initialization_parameters:
             for param in initialization_parameters.items():

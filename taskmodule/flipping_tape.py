@@ -31,6 +31,11 @@ class FlippingTapeTask:
                 initialization_parameters.has_next_page = \
                     data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["has_next_page"]
 
+                # set posts id list
+                initialization_parameters.posts_id_list.clear()
+                for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
+                    initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+
         sys_report = SystemApiRequests(self.individual_id)
         # send report to api
         sys_report.task_report(task_id, data_result)

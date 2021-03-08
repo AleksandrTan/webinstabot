@@ -6,6 +6,7 @@ a file on the standard output stream.
 """
 import sys
 import time
+import random
 
 from logsource.logconfig import logger
 from taskmodule.inittask import InitTasks
@@ -72,7 +73,6 @@ class InstaBot:
 
         while self.execution_status:
             new_task = self._get_new_task()
-            print(new_task)
 
             if new_task["status"]:
                 # run new task
@@ -81,7 +81,7 @@ class InstaBot:
 
                 if task_result["status"]:
                     sys.stdout.write(f"Task {new_task['task_name']} completed work successfully!\n")
-                    time.sleep(5)
+                    time.sleep(random.randint(5, 12))
                     continue
                 else:
                     sys.stdout.write(f"Task {new_task['task_name']} completed work with an error, check the log file "
@@ -95,9 +95,9 @@ class InstaBot:
 
             else:
                 sys.stdout.write("No tasks, I work autonomously!\n")
-                task_result = self._perform_task(self.task_objects["flipping_tape"], 3)
+                task_result = self._perform_task(self.task_objects["flipping_tape"], 2)
                 if task_result["status"]:
-                    time.sleep(2)
+                    time.sleep(random.randint(5, 12))
                     continue
                 return None
 
@@ -124,6 +124,6 @@ class InstaBot:
 if __name__ == "__main__":
     bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
                    SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1},
-                   login_task=False)
+                   login_task=True)
 
     bot.start()
