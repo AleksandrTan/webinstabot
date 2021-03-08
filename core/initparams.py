@@ -18,7 +18,6 @@ class InitParams:
         return self.__dict__
 
     def get_post_id(self):
-        print(self.posts_id_list)
         if self.posts_id_list:
             return self.posts_id_list[random.randint(0, len(self.posts_id_list) - 1)]
 

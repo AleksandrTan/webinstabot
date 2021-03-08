@@ -46,7 +46,6 @@ class InstaBot:
         self.system_api = system_api
         tasks = InitTasks(self.host_proxy, self.port_proxy, self.individual_id, self.account_data)
         self.task_objects = tasks.get_init_tasks()
-        self.session_parameters = dict()  # account session parameters for a work session
 
     def start(self):
         logger.warning(f"Bot {self.individual_id} start working!!!")
@@ -55,7 +54,8 @@ class InstaBot:
             data_authorization = self._perform_task(self.task_objects['login'], 0)
             if not data_authorization['status']:
                 sys.stdout.write(f"The authorization process for the bot"
-                                 f" number {self.individual_id} was not correct.!!!")
+                                 f" number {self.individual_id} was not correct.!!!"
+                                 f" Check the log file loging_fbi.log!\n")
                 logger.warning(f"The authorization process for the bot number {self.individual_id} was not correct.!!!")
 
                 return False
@@ -65,7 +65,8 @@ class InstaBot:
                 data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
                 if not data_authorization['status']:
                     sys.stdout.write(f"The authorization process for the bot"
-                                     f" number {self.individual_id} was not correct.!!!")
+                                     f" number {self.individual_id} was not correct.!!!"
+                                     f" Check the log file loging_fbi.log!\n")
                     logger.warning(
                         f"The authorization process for the bot number {self.individual_id} was not correct.!!!")
 
@@ -105,20 +106,12 @@ class InstaBot:
         data_task = task_object.run(task_id, self.initialization_parameters, self.initialization_headers,
                                     self.initialization_cookies)
 
-        time.sleep(5)
-
         return data_task
 
     def _get_new_task(self) -> dict:
         new_task = self.system_api.get_new_task()
 
         return new_task
-
-    def _send_data_api(self, data):
-        logger.warning(f"Bot {data} start working!!!")
-
-    def _set_log_record_api(self):
-        pass
 
 
 if __name__ == "__main__":

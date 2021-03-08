@@ -2,9 +2,9 @@
 A class for making requests to the social network Instagram used mobile API
 """
 from json.decoder import JSONDecodeError
-
 import requests
 import json
+
 from logsource.logconfig import logger
 from settings import requestsmap
 from socialapimodule.loginrequest import login
@@ -39,10 +39,12 @@ class InstagramRequestsWeb:
             logger.warning(f"{error}")
             return {"status": False, "error": True, "error_type": error}
 
-        if response.status_code == 400:
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as error:
             logger.warning(f"Error login request {response.status_code}, {data}")
 
-            return {"status": False, "error_type": "Error login request"}
+            return {"status": False, "error": True, "error_type": response.status_code}
 
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -75,7 +77,7 @@ class InstagramRequestsWeb:
         if response.status_code == 400:
             logger.warning(f"Error login request {response.status_code}, {data}")
 
-            return {"status": False, "error_type": "Error login request"}
+            return {"status": False, "error": True, "error_type": response.status_code}
 
         if response.status_code == 200:
             data = json.loads(response.text)

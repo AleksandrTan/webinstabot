@@ -50,8 +50,6 @@ class LoginTask:
             sys_report = SystemApiRequests(self.individual_id)
             # send report to api
             sys_report.task_report(task_id, data)
-            return {
-                "status": True
-            }
+            return {"status": True}
 
         return {"status": False}
