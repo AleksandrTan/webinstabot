@@ -23,6 +23,7 @@ class PageHashTask:
         :param task_id: int
         :return: dict
         """
+        sys.stdout.write("Task PageHashTask is running!\n")
         data_result = self.social_api.page_hash_task(initialization_parameters, initialization_headers,
                                                      initialization_cookies)
         if data_result["status"]:
@@ -38,15 +39,24 @@ class PageHashTask:
                     initialization_parameters.posts_id_list.clear()
                     for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
                         initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                    sys.stdout.write(f"Task PageHashTask completed work successfully!\n")
                 except KeyError as error:
+                    sys.stdout.write(
+                        f"The PageHashTask for the bot number {self.individual_id} was not correct.!!!"
+                        f" Check the log file loging_fbi.log!\n")
                     error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Error - {error}"
                     logger.warning(error_text)
-                    sys.stdout.write(error_text)
 
                     data_result["status"] = False
+        else:
+            sys.stdout.write(
+                f"The PageHashTask for the bot number {self.individual_id} was not correct.!!!"
+                f" Check the log file loging_fbi.log!\n")
+            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!!"
+            logger.warning(error_text)
 
-        sys_report = SystemApiRequests(self.individual_id)
         # send report to api
+        sys_report = SystemApiRequests(self.individual_id)
         sys_report.task_report(task_id, data_result)
 
         return data_result

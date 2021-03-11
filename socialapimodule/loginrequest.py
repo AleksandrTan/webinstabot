@@ -47,7 +47,6 @@ def login(account_data: dict, initialization_headers: object, initialization_coo
         return {"status": False}
     except Exception as errors:
         logger.warning(f"The authorization process was not correct.!!! Error - {errors}")
-        sys.stdout.write(f"Error login {errors} !")
 
         return {"status": False}
 
@@ -69,7 +68,6 @@ def set_headers(initialization_headers: object, headers: dict, cookies: dict):
 
         return True
     except KeyError as error:
-        logger.warning(f"Some parameters from response of instagram login was not correct.!!! Error - {error}")
-        sys.stdout.write(f"Some parameters from response of instagram login was not correct.!!! Error - {error}")
+        logger.warning(f"Some parameters from response (/login/ajax/) of instagram was not correct.!!! Error - {error}")
 
         return False

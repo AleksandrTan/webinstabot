@@ -31,6 +31,7 @@ class LoginTask:
         :param task_id: int
         :return: dict
         """
+        sys.stdout.write("Task Login is running!\n")
         data = {"status": True}
         # run login
         # these requests are desirable and in addition,
@@ -42,10 +43,14 @@ class LoginTask:
         sys_report.task_report(task_id, login_data)
 
         if not login_data:
+            sys.stdout.write(f"The authorization process for the bot number {self.individual_id} was not correct.!!!"
+                             f" Check the log file loging_fbi.log!\n")
+
             return {"status": False}
 
         # check if params csrftoken, mid, ig_did are passed
         if initialization_cookies.check_init_attributes():
+            sys.stdout.write(f"Task Login completed work successfully!\n")
             return {"status": True}
 
         return {"status": False}

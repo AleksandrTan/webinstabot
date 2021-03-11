@@ -51,18 +51,11 @@ class InstaBot:
         logger.warning(f"Bot {self.individual_id} start working!!!")
         # log in to the social network
         if self.login_task:
-            sys.stdout.write("Task Login is running!\n")
             data_authorization = self._perform_task(self.task_objects['login'], 0)
             if not data_authorization['status']:
-                sys.stdout.write(f"The authorization process for the bot"
-                                 f" number {self.individual_id} was not correct.!!!"
-                                 f" Check the log file loging_fbi.log!\n")
-                logger.warning(f"The authorization process for the bot number {self.individual_id} was not correct.!!!")
-
                 return False
             else:
                 # run PageHashTask
-                sys.stdout.write("Task PageHashTask is running!\n")
                 data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
                 if not data_authorization['status']:
                     return False
