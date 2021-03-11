@@ -51,6 +51,7 @@ class InstaBot:
         logger.warning(f"Bot {self.individual_id} start working!!!")
         # log in to the social network
         if self.login_task:
+            sys.stdout.write("Task Login is running!\n")
             data_authorization = self._perform_task(self.task_objects['login'], 0)
             if not data_authorization['status']:
                 sys.stdout.write(f"The authorization process for the bot"

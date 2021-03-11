@@ -37,8 +37,8 @@ INSTAGRAM_WEB_DATA = {
         },
 
     "like": {
-        # "uri": "web/likes/post_id/like/",
-        "uri": "graphql/web/likes/post_id/like/",
+        "uri": "web/likes/post_id/like/",
+        # "uri": "graphql/web/likes/post_id/like/",
     },
 
     "subscribe": {

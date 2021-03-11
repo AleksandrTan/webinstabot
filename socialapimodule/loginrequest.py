@@ -41,9 +41,10 @@ def login(account_data: dict, initialization_headers: object, initialization_coo
         driver.close()
 
         set_cookies(initialization_cookies, cookies)
-        set_headers(initialization_headers, headers, cookies)
+        if set_headers(initialization_headers, headers, cookies):
+            return {"status": True}
 
-        return {"status": True}
+        return {"status": False}
     except Exception as errors:
         logger.warning(f"The authorization process was not correct.!!! Error - {errors}")
         sys.stdout.write(f"Error login {errors} !")
@@ -57,10 +58,18 @@ def set_cookies(initialization_cookies: object, cookies: dict):
 
 
 def set_headers(initialization_headers: object, headers: dict, cookies: dict):
-    initialization_headers.set_attribute_headers("x-csrftoken", cookies["csrftoken"])
-    initialization_headers.set_attribute_headers("x-ig-www-claim", headers["x-ig-www-claim"])
-    initialization_headers.set_attribute_headers("x-ig-app-id", headers["x-ig-app-id"])
-    cookies_string = ''
-    for cookie in cookies.items():
-        cookies_string += cookie[0] + "=" + cookie[1] + "; "
-    initialization_headers.set_attribute_headers("Cookie", cookies_string.rstrip())
+    try:
+        initialization_headers.set_attribute_headers("x-csrftoken", cookies["csrftoken"])
+        initialization_headers.set_attribute_headers("x-ig-www-claim", headers["x-ig-www-claim"])
+        initialization_headers.set_attribute_headers("x-ig-app-id", headers["x-ig-app-id"])
+        cookies_string = ''
+        for cookie in cookies.items():
+            cookies_string += cookie[0] + "=" + cookie[1] + "; "
+        initialization_headers.set_attribute_headers("Cookie", cookies_string.rstrip())
+
+        return True
+    except KeyError as error:
+        logger.warning(f"Some parameters from response of instagram login was not correct.!!! Error - {error}")
+        sys.stdout.write(f"Some parameters from response of instagram login was not correct.!!! Error - {error}")
+
+        return False

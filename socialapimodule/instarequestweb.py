@@ -98,8 +98,6 @@ class InstagramRequestsWeb:
         pre_request_obj = login(account_data, initialization_headers, initialization_cookies, self.requests_map)
 
         if not pre_request_obj["status"]:
-            logger.warning(f"The parameters required for the request are not set!")
-
             return {"status": False}
 
         return {"status": True}
