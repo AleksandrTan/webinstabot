@@ -48,7 +48,6 @@ class InstaBot:
         self.task_objects = tasks.get_init_tasks()
 
     def start(self):
-        logger.warning(f"Bot {self.individual_id} start working!!!")
         # log in to the social network
         if self.login_task:
             data_authorization = self._perform_task(self.task_objects['login'], 0)
@@ -65,16 +64,11 @@ class InstaBot:
 
             if new_task["status"]:
                 # run new task
-                sys.stdout.write(f"Task {new_task['task_name']} is running!\n")
                 task_result = self._perform_task(self.task_objects[new_task['task_name']], new_task['task_id'])
 
                 if task_result["status"]:
-                    sys.stdout.write(f"Task {new_task['task_name']} completed work successfully!\n")
                     time.sleep(random.randint(5, 12))
                     continue
-                else:
-                    sys.stdout.write(f"Task {new_task['task_name']} completed work with an error, check the log file "
-                                     f"loging_fbi.log!\n")
                 return
 
             elif new_task["error"]:

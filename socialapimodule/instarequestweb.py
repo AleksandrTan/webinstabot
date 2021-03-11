@@ -152,27 +152,24 @@ class InstagramRequestsWeb:
         return response
 
     def like(self, initialization_parameters: object, initialization_headers: object,
-             initialization_cookies: object) -> dict:
+             initialization_cookies: object, post_id: str) -> dict:
         """
         :param initialization_cookies: object
         :param initialization_parameters: object
         :param initialization_headers: object
+        :param post_id: str
         :return: dict
         """
         request_data = dict()
-        post_id = initialization_parameters.get_post_id()
-        if post_id:
-            uri = self.requests_map["like"]["uri"].replace('post_id', str(post_id))
-            response = self._make_request_post(self.requests_map["main_url"], uri, request_data,
-                                               initialization_headers.get_headers(),
-                                               initialization_cookies.get_dict())
+        uri = self.requests_map["like"]["uri"].replace('post_id', post_id)
+        response = self._make_request_post(self.requests_map["main_url"], uri, request_data,
+                                           initialization_headers.get_headers(),
+                                           initialization_cookies.get_dict())
 
-            return response
+        return response
 
-        else:
-            return {"status": False}
 
-    def subscribe(self, initialization_parameters: object, initialization_headers: object,
+def subscribe(self, initialization_parameters: object, initialization_headers: object,
                   initialization_cookies: object) -> dict:
         """
         :param initialization_headers:

@@ -1,6 +1,8 @@
 """
 Performs the task of implementing a like on a social network
 """
+import sys
+
 from apimodule.systemapiwork import SystemApiRequests
 
 
@@ -21,7 +23,12 @@ class LikeTask:
         :param task_id: int
         :return: dict
         """
-        data_result = self.social_api.like(initialization_parameters, initialization_headers, initialization_cookies)
+        sys.stdout.write("Task LikeTask is running!\n")
+        data_result = dict()
+        post_id = initialization_parameters.get_post_id()
+        if post_id:
+            data_result = self.social_api.like(initialization_parameters, initialization_headers,
+                                               initialization_cookies, post_id)
         sys_report = SystemApiRequests(self.individual_id)
         # send report to api
         sys_report.task_report(task_id, data_result)

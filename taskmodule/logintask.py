@@ -32,7 +32,6 @@ class LoginTask:
         :return: dict
         """
         sys.stdout.write("Task Login is running!\n")
-        data = {"status": True}
         # run login
         # these requests are desirable and in addition,
         # the request will allow you to get the parameter cookie - csrftoken, mid, ig_did... from the api
