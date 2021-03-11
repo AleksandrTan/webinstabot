@@ -65,12 +65,6 @@ class InstaBot:
                 sys.stdout.write("Task PageHashTask is running!\n")
                 data_authorization = self._perform_task(self.task_objects['page_hash'], 1)
                 if not data_authorization['status']:
-                    sys.stdout.write(f"The authorization process for the bot"
-                                     f" number {self.individual_id} was not correct.!!!"
-                                     f" Check the log file loging_fbi.log!\n")
-                    logger.warning(
-                        f"The authorization process for the bot number {self.individual_id} was not correct.!!!")
-
                     return False
 
         while self.execution_status:

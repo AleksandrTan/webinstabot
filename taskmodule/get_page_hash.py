@@ -1,8 +1,10 @@
 """
 Performs the flipping tape of implementing a like on a social network
 """
-from apimodule.systemapiwork import SystemApiRequests
+import sys
 
+from apimodule.systemapiwork import SystemApiRequests
+from logsource.logconfig import logger
 
 class PageHashTask:
 
@@ -25,16 +27,23 @@ class PageHashTask:
                                                      initialization_cookies)
         if data_result["status"]:
             if data_result["data"]["status"] == 'ok':
-                initialization_parameters.fetch_media_item_cursor = \
-                    data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["end_cursor"]
+                try:
+                    initialization_parameters.fetch_media_item_cursor = \
+                        data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["end_cursor"]
 
-                initialization_parameters.has_next_page = \
-                    data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["has_next_page"]
+                    initialization_parameters.has_next_page = \
+                        data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["page_info"]["has_next_page"]
 
-                # set posts id list
-                initialization_parameters.posts_id_list.clear()
-                for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
-                    initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                    # set posts id list
+                    initialization_parameters.posts_id_list.clear()
+                    for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
+                        initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                except KeyError as error:
+                    error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Error - {error}"
+                    logger.warning(error_text)
+                    sys.stdout.write(error_text)
+
+                    data_result["status"] = False
 
         sys_report = SystemApiRequests(self.individual_id)
         # send report to api
