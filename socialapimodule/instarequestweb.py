@@ -12,10 +12,14 @@ from socialapimodule.loginrequest import login
 
 class InstagramRequestsWeb:
 
-    def __init__(self, host_proxy: str, port_proxy: int):
+    def __init__(self, host_proxy: str = '', port_proxy: int = 0):
         self.request = requests.Session()
         self.host_proxy = host_proxy
-        self.port_proxy = port_proxy
+        self.port_proxy = str(port_proxy)
+        if self.host_proxy and self.port_proxy:
+            print(self.host_proxy)
+            print(3500)
+            self.request.proxies.update({'http': self.host_proxy + ":" + self.port_proxy})
         self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
 
     def _make_request_post(self, main_url: str, uri: str, params: dict, headers: dict, cookies: dict) -> dict:
@@ -71,6 +75,7 @@ class InstagramRequestsWeb:
                 return {"status": False, "error": True, "error_type": error, "error_message": data}
 
         except requests.exceptions.ConnectionError as error:
+            print(error)
             logger.warning(f"{error}")
             return {"status": False, "error": True, "error_type": error}
 

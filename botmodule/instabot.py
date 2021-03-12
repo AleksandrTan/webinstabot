@@ -8,7 +8,6 @@ import sys
 import time
 import random
 
-from logsource.logconfig import logger
 from taskmodule.inittask import InitTasks
 from apimodule.systemapiwork import SystemApiRequests
 from socialapimodule.instarequestweb import InstagramRequestsWeb
@@ -44,7 +43,7 @@ class InstaBot:
         self.port_proxy = port_proxy
         self.social_api = social_api
         self.system_api = system_api
-        tasks = InitTasks(self.host_proxy, self.port_proxy, self.individual_id, self.account_data)
+        tasks = InitTasks(self.host_proxy, self.port_proxy, self.individual_id, self.account_data, self.social_api)
         self.task_objects = tasks.get_init_tasks()
 
     def start(self):
@@ -97,7 +96,7 @@ class InstaBot:
 
 
 if __name__ == "__main__":
-    bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb("http://localhost", 8000),
+    bot = InstaBot("http://localhost", 3500, InstagramRequestsWeb(),
                    SystemApiRequests(1), 1, {"username": "Rumych423", "password": 'ufeltfvec'}, {"st": 1},
                    login_task=False)
 

@@ -12,8 +12,6 @@ class FlippingTapeTask:
         self.social_api = social_api
         self.account_data = account_data
         self.individual_id = individual_bot_id
-        self.error = ''
-        self.error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Error - {self.error}"
 
     def run(self, task_id: int, initialization_parameters: object, initialization_headers: object,
             initialization_cookies: object) -> dict:
@@ -42,11 +40,12 @@ class FlippingTapeTask:
                     for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
                         initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
                     sys.stdout.write(f"Task FlippingTapeTask completed work successfully!\n")
-                except KeyError as self.error:
+                except KeyError as error:
                     sys.stdout.write(
                         f"The FlippingTapeTask for the bot number {self.individual_id} was not correct.!!!"
                         f" Check the log file loging_fbi.log!\n")
-                    logger.warning(self.error_text)
+                    error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Error - {error}"
+                    logger.warning(error_text)
 
                     data_result["status"] = False
         else:
