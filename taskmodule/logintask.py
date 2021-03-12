@@ -41,7 +41,7 @@ class LoginTask:
         sys_report = SystemApiRequests(self.individual_id)
         sys_report.task_report(task_id, login_data)
 
-        if not login_data:
+        if not login_data["status"]:
             sys.stdout.write(f"The authorization process for the bot number {self.individual_id} was not correct.!!!"
                              f" Check the log file loging_fbi.log!\n")
 
