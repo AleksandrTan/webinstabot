@@ -65,7 +65,7 @@ class PageHashTask:
             sys.stdout.write(
                 f"The PageHashTask for the bot number {self.individual_id} was not correct.!!!"
                 f" Check the log file loging_fbi.log!\n")
-            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!!"
+            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Data - {data_result['data']}"
             logger.warning(error_text)
 
         # send report to api
