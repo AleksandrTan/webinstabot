@@ -8,9 +8,7 @@ from taskmodule.liketask import LikeTask
 
 
 class InitTasks:
-    def __init__(self, host_proxy, port_proxy, individual_id, account_data, social_api):
-        self.host_proxy = host_proxy
-        self.port_proxy = port_proxy
+    def __init__(self, individual_id, account_data, social_api):
         self.account_data = account_data
         self.individual_id = individual_id
         self.social_api = social_api

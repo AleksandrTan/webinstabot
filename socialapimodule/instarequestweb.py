@@ -17,8 +17,6 @@ class InstagramRequestsWeb:
         self.host_proxy = host_proxy
         self.port_proxy = str(port_proxy)
         if self.host_proxy and self.port_proxy:
-            print(self.host_proxy)
-            print(3500)
             self.request.proxies.update({'http': self.host_proxy + ":" + self.port_proxy})
         self.requests_map = requestsmap.INSTAGRAM_WEB_DATA
 

@@ -52,6 +52,7 @@ def login(account_data: dict, initialization_headers: object, initialization_coo
 
 
 def set_cookies(initialization_cookies: object, cookies: dict):
+    print(cookies, 3500)
     for cooks in cookies:
         setattr(initialization_cookies, cooks, cookies[cooks])
 
