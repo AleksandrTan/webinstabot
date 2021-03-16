@@ -26,6 +26,7 @@ class PageHashTask:
         sys.stdout.write("Task PageHashTask is running!\n")
         data_result = self.social_api.page_hash_task(initialization_parameters, initialization_headers,
                                                      initialization_cookies)
+
         if data_result["status"]:
             if data_result["data"]["status"] == 'ok':
                 try:
@@ -38,7 +39,11 @@ class PageHashTask:
                     # set posts id list
                     initialization_parameters.posts_id_list.clear()
                     for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
-                        initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                        try:
+                            initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                        except KeyError:
+                            continue
+
                     sys.stdout.write(f"Task PageHashTask completed work successfully!\n")
                 except KeyError as error:
                     sys.stdout.write(
@@ -48,11 +53,19 @@ class PageHashTask:
                     logger.warning(error_text)
 
                     data_result["status"] = False
+
+            else:
+                sys.stdout.write(
+                    f"The FlippingTapeTask for the bot number {self.individual_id} was not correct.!!!"
+                    f" Check the log file loging_fbi.log!\n")
+                error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Data - {data_result['data']}"
+                logger.warning(error_text)
+                data_result["status"] = False
         else:
             sys.stdout.write(
                 f"The PageHashTask for the bot number {self.individual_id} was not correct.!!!"
                 f" Check the log file loging_fbi.log!\n")
-            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!!"
+            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Data - {data_result['data']}"
             logger.warning(error_text)
 
         # send report to api

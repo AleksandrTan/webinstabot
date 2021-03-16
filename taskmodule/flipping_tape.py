@@ -38,7 +38,10 @@ class FlippingTapeTask:
                     # set posts id list
                     initialization_parameters.posts_id_list.clear()
                     for post_id in data_result["data"]["data"]["user"]["edge_web_feed_timeline"]["edges"]:
-                        initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                        try:
+                            initialization_parameters.posts_id_list.append(str(post_id["node"]["id"]))
+                        except KeyError as error:
+                            continue
                     sys.stdout.write(f"Task FlippingTapeTask completed work successfully!\n")
                 except KeyError as error:
                     sys.stdout.write(
@@ -48,11 +51,18 @@ class FlippingTapeTask:
                     logger.warning(error_text)
 
                     data_result["status"] = False
+            else:
+                sys.stdout.write(
+                    f"The FlippingTapeTask for the bot number {self.individual_id} was not correct.!!!"
+                    f" Check the log file loging_fbi.log!\n")
+                error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Data - {data_result['data']}"
+                logger.warning(error_text)
+                data_result["status"] = False
         else:
             sys.stdout.write(
                 f"The FlippingTapeTask for the bot number {self.individual_id} was not correct.!!!"
                 f" Check the log file loging_fbi.log!\n")
-            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!!"
+            error_text = f"Some parameters from response of instagram (graphql/query/) was not correct.!!! Data - {data_result['data']}"
             logger.warning(error_text)
 
         # send report to api
